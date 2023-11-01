@@ -6,8 +6,8 @@ This README outlines how to set up a basic Rails application with Resque for bac
 
 * Ruby 3.2.2
 * Rails 7.x
-* PostgreSQL
-* Redis
+* PostgreSQL (if running locally you will need to modify `config/database.yml` to use your local database)
+* Redis (if running locally you will need to modify `config/initializers/resque.rb` to use your local Redis server or you can modify the `etc/hosts` file to point `redis` to `localhost`)
 
 ## Setup Steps
 
@@ -136,6 +136,30 @@ Run the custom rake tasks to enqueue jobs:
 * `rake resque:enqueue_in`
 * `rake resque:enqueue_at`
 
+### 11. Docker
+
+Docker has been set up to run the application and Redis. To run the application in Docker, run:
+
+```bash
+docker compose build
+docker compose up
+```
+
+In another terminal run the following.
+
+```bash
+docker compose exec web rails db:setup
+docker compose exec web rails db:migrate
+```
+
+### 11. Test Jobs in Docker
+
+Run the custom rake tasks to enqueue jobs:
+
+* `docker compose exec web rake resque:enqueue`
+* `docker compose exec web rake resque:enqueue_in`
+* `docker compose exec web rake resque:enqueue_at`
+
 ## Monitoring
 
-You can monitor the jobs at `http://localhost:3000/resque`.
+You can monitor the jobs at `http://localhost:3000/resque`. Use port `3001` if running in Docker.
