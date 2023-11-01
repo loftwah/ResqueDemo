@@ -1,0 +1,5 @@
+ExampleJob:
+  cron: "* * * * *"
+  class: "ExampleJob"
+  args: "Loftwah"
+  description: "I'm an example job!"
